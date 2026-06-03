@@ -9,32 +9,40 @@ using UnityEngine.InputSystem;
 // [RequireComponent(typeof(TacticalViewController))]
 public class Unit : MonoBehaviour
 {
-    private PlayerInput _player;
-    private TacticalViewController _controller;
+    
     [SerializeField] private Animator _animator;
 
     private float stoppingDistance = 0.05f;
     
     private Vector3 targetPosition;
+    private GridPosition currentGridPosition;
+    
     [SerializeField] private float unitMoveSpeed = 4f;
     [SerializeField] private float unitRotationSpeed = 12f;
-    
+
+
+    private void Awake()
+    {
+        targetPosition = transform.position;
+    }
 
     private void Start()
     {
-        // _controller = GetComponent<TacticalViewController>();
-        // _player = GetComponentInParent<PlayerInput>();
+        
+        currentGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        LevelGrid.Instance.AddUnitAtGridPosition(currentGridPosition, this);
     }
 
     private void Update()
     {
-       Move();
+       Move(targetPosition);
+
     }
 
-    private void Move()
+    public void Move(Vector3 givenOrderPosition)
     {
-        // gets position from MouseRaycast
-        SetTargetPosition();
+        targetPosition = givenOrderPosition;
+        
         // apply simple move mechanism
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
@@ -48,11 +56,18 @@ public class Unit : MonoBehaviour
         {
             _animator.SetBool("IsWalking", false);
         }
+        GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+
+        if (newGridPosition != currentGridPosition)
+        {
+            LevelGrid.Instance.UnitMovedGridPosition(this.currentGridPosition, newGridPosition, this);
+        }
+        currentGridPosition = newGridPosition;
+
     }
 
-    private void SetTargetPosition()
-    {
-        if (InputManager.Instance.order)  targetPosition = MouseRaycast.GetPosition();
-    }
+    
+
+    
 }
 

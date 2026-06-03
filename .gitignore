@@ -16,7 +16,12 @@
 /[Aa]ssets/3rd Party/
 /[Aa]ssets/[Ss]ettings/
 /[Pp]roject[Ss]ettings/
-
+/[Aa]ssets/TextMesh Pro/
+/[Aa]ssets/Media/
+/[Aa]ssets/Prefabs/
+/[Aa]ssets/ProBuilder Data/
+/[Aa]ssets/Animations/
+/[Aa]ssets/Scenes/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data

@@ -1,0 +1,23 @@
+Index: Assets/Scripts/Units/Unit.cs
+===================================================================
+diff --git a/Assets/Scripts/Units/Unit.cs b/Assets/Scripts/Units/Unit.cs
+deleted file mode 100644
+--- a/Assets/Scripts/Units/Unit.cs	(revision 2bdef0b655bdaeaf98a4383eec8169217baa291f)
++++ /dev/null	(revision 2bdef0b655bdaeaf98a4383eec8169217baa291f)
+@@ -1,16 +0,0 @@
+-using UnityEngine;
+-
+-public class Unit : MonoBehaviour
+-{
+-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+-    void Start()
+-    {
+-        
+-    }
+-
+-    // Update is called once per frame
+-    void Update()
+-    {
+-        
+-    }
+-}

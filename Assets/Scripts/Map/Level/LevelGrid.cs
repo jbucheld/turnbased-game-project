@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LevelGrid : MonoBehaviour
+{
+    public static LevelGrid Instance { get; private set; }
+    
+    private GridSystem gridSystem;
+    [SerializeField] private Transform gridObject;
+    
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("[LevelGrid] There is more than one instance of LevelGrid!");
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        
+        gridSystem = new GridSystem(10, 10, 2f);
+        gridSystem.CreateDebugObjects(gridObject);
+    }
+
+    public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        gridObject.AddUnit(unit);
+    }
+
+    public List<Unit> GetUnitsAtGridPosition(GridPosition gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        return gridObject.GetUnitslist();
+    }
+
+    public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit unit)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        gridObject.RemoveUnit(unit);
+    }
+    
+    public GridPosition GetGridPosition(Vector3 mapPosition) => gridSystem.GetGridPosition(mapPosition);
+
+    public void UnitMovedGridPosition(GridPosition fromGridPosition, GridPosition toGridPosition, Unit unit)
+    {
+        RemoveUnitAtGridPosition(fromGridPosition, unit);
+        AddUnitAtGridPosition(toGridPosition, unit);
+    }
+}
