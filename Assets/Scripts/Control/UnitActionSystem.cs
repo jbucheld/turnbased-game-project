@@ -9,6 +9,7 @@ public class UnitActionSystem : MonoBehaviour
     public event EventHandler OnSelectedUnitChange;
     
     [SerializeField] private Unit selectedUnit;
+    private bool isBusy;
 
     private void Awake()
     {
@@ -23,10 +24,22 @@ public class UnitActionSystem : MonoBehaviour
     
     private void Update()
     {
+        if (isBusy) return ;
         if (InputManager.Instance.order) SetTargetPosition();
         if (InputManager.Instance.select) SelectUnit();
+        if (InputManager.Instance.testKey) SpinUnit();
     }
 
+    private void SetBusy()
+    {
+        isBusy = true;
+    }
+
+    public void ClearBusy()
+    {
+        isBusy = false;
+    }
+    
     private void SelectUnit()
     {
         GameObject selectedGameObject = MouseRaycast.GetSelectable();
@@ -39,13 +52,28 @@ public class UnitActionSystem : MonoBehaviour
     
     private void SetTargetPosition()
     {
-        selectedUnit.Move(MouseRaycast.GetPosition());
+        SetBusy();
+        GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseRaycast.GetPosition());
+        if (selectedUnit.GetMoveAction().IsPositionValidForMovement(mouseGridPosition))
+        {
+            selectedUnit.GetMoveAction().Move(mouseGridPosition);
+        }
+        InputManager.Instance.order = false;
+        ClearBusy();
     }
 
     private void SetSelectedUnit(Unit unit)
     {
         selectedUnit = unit;
         OnSelectedUnitChange?.Invoke(this, EventArgs.Empty);
+        InputManager.Instance.select = false;
+    }
+
+    private void SpinUnit()
+    {
+        SetBusy();
+        selectedUnit.GetSpinAction().Spin(ClearBusy);
+        InputManager.Instance.testKey = false;
     }
     
     public Unit GetSelectedUnit()

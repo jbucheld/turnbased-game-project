@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Testing : MonoBehaviour
 {
+    private Unit unit;
    
     private void Start()
     {
@@ -11,6 +12,7 @@ public class Testing : MonoBehaviour
 
     private void Update()
     {
+        unit = UnitActionSystem.Instance.GetSelectedUnit();    
         
     }
 }
