@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de57894c-69ba-431e-95e8-3617892c23fb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Control/MouseRaycast.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Control/MouseRaycast.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Unit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TurnBased Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TurnBased Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Control/InputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Control/InputManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,13 +34,13 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/53b528e85d8e47c4afef20efc8a974a22a400/64/42b88b5f/CharacterController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/60413e0732da4f899b47cce87c14ed90214800/3e/f76e2aae/Quaternion.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/ProBuilder Data/Default Color Palette.asset" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Control.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Control/UnitActionSystem.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Map/GridObject.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Map/GridPosition.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Map/GridSystem.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Units/UnitSelectVisualIndicator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Scenes/01-  Single Line TextMesh Pro.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Plugins/PlayerInput/InputValue.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Plugins/PlayerInput/PlayerInput.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Plugins/PlayerInput/PlayerInputEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@d8a2716f3013/Runtime/UGUI/UI/Core/Selectable.cs" root0="SKIP_HIGHLIGHTING" />
@@ -120,7 +120,9 @@
       <workItem from="1780348646741" duration="2841000" />
       <workItem from="1780384057209" duration="4880000" />
       <workItem from="1780402847199" duration="2505000" />
-      <workItem from="1780469947255" duration="16438000" />
+      <workItem from="1780469947255" duration="17254000" />
+      <workItem from="1780568661992" duration="3616000" />
+      <workItem from="1780596315679" duration="7378000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit for the new project">
       <option name="closed" value="true" />
@@ -162,7 +164,15 @@
       <option name="project" value="LOCAL" />
       <updated>1780391604003</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added: grid moving mechanisms, grid position check, unit action system script">
+      <option name="closed" value="true" />
+      <created>1780490030682</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1780490030682</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,7 +210,8 @@
     <MESSAGE value="initial commit" />
     <MESSAGE value="Added simple move unit mechanism.&#10;Separated new InputManager and TacticalViewController." />
     <MESSAGE value="added unit rotation on move" />
-    <option name="LAST_COMMIT_MESSAGE" value="added unit rotation on move" />
+    <MESSAGE value="Added: grid moving mechanisms, grid position check, unit action system script" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added: grid moving mechanisms, grid position check, unit action system script" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -7,7 +7,9 @@ public class InputManager : MonoBehaviour
 {
     [Header("Player inputs tracker")] 
     public Vector2 look;
+    public Vector2 cameraMove;
     public bool testKey;
+    public float rotateCamera;
     public bool select;
     public bool order;
 
@@ -48,11 +50,32 @@ public class InputManager : MonoBehaviour
         TestKeyInput(value.isPressed);
     }
 
+    public void OnCameraMove(InputValue value)
+    {
+        CameraMoveInput(value.Get<Vector2>());
+    }
+
+    public void OnRotateCamera(InputValue value)
+    {
+        RotateCameraInput(value.Get<float>());
+    }
+    
+
 #endif
     
     private void LookInput(Vector2 newLookDirection)
     {
         look = newLookDirection;
+    }
+
+    private void CameraMoveInput(Vector2 newCameraMoveDirection)
+    {
+        cameraMove = newCameraMoveDirection;
+    }
+
+    private void RotateCameraInput(float newRotateValue)
+    {
+        rotateCamera = newRotateValue;
     }
 
     private void SelectInput(bool newSelectState)
