@@ -30,4 +30,9 @@ public class SpinAction : ActionParentClass
         totalSpinAmount = 0;
         isActive = true;
     }
+    
+    public override string GetActionName()
+    {
+        return "Spin!";
+    }
 }

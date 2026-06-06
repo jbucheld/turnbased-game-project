@@ -11,4 +11,6 @@ public abstract class ActionParentClass : MonoBehaviour
     {
         parentUnit = GetComponent<Unit>();
     }
+
+    public abstract string GetActionName();
 }

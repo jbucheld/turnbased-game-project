@@ -13,7 +13,8 @@ public class Unit : MonoBehaviour
 
     private float stoppingDistance = 0.05f;
     private GridPosition currentGridPosition;
-    [Header("Actions")]
+    [Header("Actions")] 
+    private ActionParentClass[] actionsArray;
     private MoveAction moveAction;
     private SpinAction spinAction;
     
@@ -23,6 +24,7 @@ public class Unit : MonoBehaviour
     {
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
+        actionsArray = GetComponentsInChildren<ActionParentClass>();
     }
 
     private void Start()
@@ -50,7 +52,11 @@ public class Unit : MonoBehaviour
     {
         return currentGridPosition;
     }
-    
+
+    public ActionParentClass[] GetActionsArray()
+    {
+        return actionsArray;
+    }
 
 }
 

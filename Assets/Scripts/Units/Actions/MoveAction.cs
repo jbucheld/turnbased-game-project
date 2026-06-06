@@ -22,7 +22,7 @@ public class MoveAction : ActionParentClass
         base.Awake();
         targetPosition = this.transform.position;
     }
-    
+
     private void Start()
     {
         currentGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
@@ -101,5 +101,10 @@ public class MoveAction : ActionParentClass
     public bool IsMoving()
     {
         return isMoving;
+    }
+    
+    public override string GetActionName()
+    {
+        return "Move";
     }
 }
