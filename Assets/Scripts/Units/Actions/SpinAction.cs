@@ -6,11 +6,6 @@ public class SpinAction : ActionParentClass
 {
     private float totalSpinAmount;
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
     private void Update()
     {
         if (!isActive) return;
@@ -42,7 +37,12 @@ public class SpinAction : ActionParentClass
     {
         return "Spin!";
     }
-    
+
+    public override int GetActionCost()
+    {
+        return 2;
+    }
+
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         Spin(onActionComplete);

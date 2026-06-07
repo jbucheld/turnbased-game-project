@@ -24,4 +24,9 @@ public abstract class ActionParentClass : MonoBehaviour
     public abstract List<GridPosition> GetValidActionGridPositionList();
     
     public abstract string GetActionName();
+
+    public virtual int GetActionCost()
+    {
+        return 1;
+    }
 }

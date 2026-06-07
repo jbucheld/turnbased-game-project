@@ -17,12 +17,16 @@ public class Unit : MonoBehaviour
     private ActionParentClass[] actionsArray;
     private MoveAction moveAction;
     private SpinAction spinAction;
+    private int startingActionPoints = 2;
+    private int currentActionPoints;
+    
     
     private void Awake()
     {
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
         actionsArray = GetComponentsInChildren<ActionParentClass>();
+        currentActionPoints = startingActionPoints;
     }
 
     private void Start()
@@ -54,6 +58,46 @@ public class Unit : MonoBehaviour
     public ActionParentClass[] GetActionsArray()
     {
         return actionsArray;
+    }
+
+    public int GetCurrentActionPoints()
+    {
+        return currentActionPoints;
+    }
+        
+
+    public bool CanSpendActionPointsToTakeAction(ActionParentClass apc)
+    {
+        // prevents weird bugs with negative currentActionPoints
+        if (currentActionPoints < 0)
+        {
+            currentActionPoints = 0;
+            return false;
+        }
+        // prevents from taking free actions while action points are depleted
+        if (currentActionPoints == 0) return false;
+        if (apc.GetActionCost() > currentActionPoints) return false;
+        return true;
+    }
+
+    private void SpendActionPoints(int actionCost)
+    {
+        currentActionPoints -= actionCost;
+    }
+
+    public bool TrySpendActionPointsToTakeAction(ActionParentClass apc)
+    {
+        if (CanSpendActionPointsToTakeAction(apc))
+        {
+            SpendActionPoints(apc.GetActionCost());
+            return true;
+        } 
+        return false;
+    }
+
+    public void ResetActionPoints()
+    {
+        
     }
 
 }

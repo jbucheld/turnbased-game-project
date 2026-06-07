@@ -8,7 +8,12 @@ public class UnitActionSystem : MonoBehaviour
     public static UnitActionSystem Instance { get; private set; }
     
     public event EventHandler OnSelectedUnitChange;
-    public event EventHandler OnSelectedActionChange; 
+    public event EventHandler OnSelectedActionChange;
+    public event EventHandler<bool> OnBusyChange;
+
+    public event EventHandler OnActionStarted;
+    // public event EventHandler OnSetBusy;
+    // public event EventHandler OnClearBusy;
     
     [SerializeField] private Unit selectedUnit;
     private ActionParentClass selectedAction;
@@ -51,23 +56,32 @@ public class UnitActionSystem : MonoBehaviour
 
     private void HandleSelectedAction()
     {
-        GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseRaycast.GetPosition());
+        // checks on click
         if (!InputManager.Instance.order) return;
-        if (selectedAction.IsPositionValid(mouseGridPosition))
-        {
-            SetBusy();
-            selectedAction.TakeAction(mouseGridPosition, ClearBusy);
-        }
+        
+        GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseRaycast.GetPosition());
+        if (!selectedAction.IsPositionValid(mouseGridPosition)) return;
+        
+        // checks action points availability and spends them
+        if (!selectedUnit.TrySpendActionPointsToTakeAction(selectedAction)) return;
+        
+        SetBusy();
+        selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+        OnActionStarted?.Invoke(this, EventArgs.Empty);
+        
     }
 
     private void SetBusy()
     {
         isBusy = true;
+        OnBusyChange?.Invoke(this, isBusy);
+            
     }
 
     public void ClearBusy()
     {
         isBusy = false;
+        OnBusyChange?.Invoke(this, isBusy);
     }
     
     private bool TryHandleUnitSelection()

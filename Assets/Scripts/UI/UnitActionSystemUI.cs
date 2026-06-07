@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem.Composites;
 
@@ -8,6 +9,7 @@ public class UnitActionSystemUI : MonoBehaviour
 {
     [SerializeField] private Transform actionButtonPrefab;
     [SerializeField] private Transform actionButtonContainerTransform;
+    [SerializeField] private TextMeshProUGUI remainingActionPointsText;
 
     private List<ActionButtonUI> actionButtons;
 
@@ -20,9 +22,13 @@ public class UnitActionSystemUI : MonoBehaviour
     {
         UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChange;
         UnitActionSystem.Instance.OnSelectedActionChange += UnitActionSystem_OnSelectedActionChange;
+        UnitActionSystem.Instance.OnActionStarted += UnitActionSystem_OnActionStarted;
         UnitActionSystem_OnSelectedUnitChange(null, null);
+        UpdateActionPoints();
         UpdateSelectedVisual();
     }
+
+   
 
     private void CreateUnitActionButtons()
     {
@@ -46,16 +52,6 @@ public class UnitActionSystemUI : MonoBehaviour
         }
         actionButtons.Clear();
     }
-
-    private void UnitActionSystem_OnSelectedUnitChange(object sender, EventArgs e)
-    {
-        CreateUnitActionButtons();
-    }
-
-    private void UnitActionSystem_OnSelectedActionChange(object sender, EventArgs e)
-    {
-        UpdateSelectedVisual();
-    }
     
     private void UpdateSelectedVisual()
     {
@@ -64,4 +60,29 @@ public class UnitActionSystemUI : MonoBehaviour
             button.UpdateSelectedVisual();
         }
     }
+
+    private void UpdateActionPoints()
+    {
+        int remainingPoints = UnitActionSystem.Instance.GetSelectedUnit().GetCurrentActionPoints();
+        remainingActionPointsText.text = $"Action Points : {remainingPoints}";
+    }
+    
+
+    private void UnitActionSystem_OnSelectedUnitChange(object sender, EventArgs e)
+    {
+        CreateUnitActionButtons();
+        UpdateActionPoints();
+    }
+
+    private void UnitActionSystem_OnSelectedActionChange(object sender, EventArgs e)
+    {
+        UpdateSelectedVisual();
+    }
+    
+    private void UnitActionSystem_OnActionStarted(object sender, EventArgs e)
+    {
+        UpdateActionPoints();
+    }
+    
+    
 }
