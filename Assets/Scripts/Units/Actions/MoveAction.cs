@@ -22,38 +22,50 @@ public class MoveAction : ActionParentClass
         base.Awake();
         targetPosition = this.transform.position;
     }
+    
 
     private void Start()
     {
         currentGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(currentGridPosition, parentUnit);
-        
     }
     
     private void Update()
     {
-        if(isActive) Move(LevelGrid.Instance.GetGridPosition(targetPosition));
+        if(isActive) Move();
+    }
+
+    public void OrderMove(GridPosition givenOrderPosition, Action onMoveComplete)
+    {
+        this.onActionComplete = onMoveComplete;
+        Debug.Log("OrderMove function called.");
+        if (InputManager.Instance.order)
+        {
+            Debug.Log($"OrderButton pressed : {InputManager.Instance.order}");
+            targetPosition = LevelGrid.Instance.GetWorldPosition(givenOrderPosition);
+            isActive = true;
+            
+            InputManager.Instance.order = false;
+            Debug.Log($"OrderButton should be unpressed : {InputManager.Instance.order}");
+        }
     }
     
-    public void Move(GridPosition givenOrderPosition)
+    private void Move()
     {
-        isActive = true;
-        targetPosition = LevelGrid.Instance.GetWorldPosition(givenOrderPosition);
+        // targetPosition = LevelGrid.Instance.GetWorldPosition(givenOrderPosition);
         Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
         // apply simple move mechanism
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
-            isMoving = true;
             _animator.SetBool("IsWalking", true);
-            
             transform.position +=  moveDirection * (Time.deltaTime * unitMoveSpeed);
         }
         else
         {
-            isMoving = false;
             isActive = false;
             _animator.SetBool("IsWalking", false);
+            onActionComplete();
         }
         
         transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * unitRotationSpeed);
@@ -66,7 +78,7 @@ public class MoveAction : ActionParentClass
         currentGridPosition = newGridPosition;
     }
 
-    public List<GridPosition> GetValidActionGridPositionList()
+    public override List<GridPosition> GetValidActionGridPositionList()
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
         GridPosition currentGridPosition = parentUnit.GetGridPosition();
@@ -91,20 +103,14 @@ public class MoveAction : ActionParentClass
         
         return validGridPositionList;
     }
-
-    public bool IsPositionValidForMovement(GridPosition gridPosition)
-    {
-        List<GridPosition> validGridPositionList = GetValidActionGridPositionList();
-        return validGridPositionList.Contains(gridPosition) ;
-    }
-
-    public bool IsMoving()
-    {
-        return isMoving;
-    }
     
     public override string GetActionName()
     {
         return "Move";
+    }
+    
+    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
+    {
+        OrderMove(gridPosition, onActionComplete);
     }
 }

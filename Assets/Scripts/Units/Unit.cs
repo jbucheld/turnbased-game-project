@@ -18,8 +18,6 @@ public class Unit : MonoBehaviour
     private MoveAction moveAction;
     private SpinAction spinAction;
     
-
-
     private void Awake()
     {
         moveAction = GetComponent<MoveAction>();

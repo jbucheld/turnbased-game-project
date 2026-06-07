@@ -4,31 +4,34 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [Header("Camera Movement")]
     [SerializeField] private GameObject cinemachineMainCamera;
-    [SerializeField] private float moveSpeed = 8f;
-    
+    [SerializeField] private float moveSpeed = 20f;
+    [SerializeField] private float fastMoveSpeed = 60f;
+    [SerializeField] private float cameraCenteringDistance = 0.5f;
+    [SerializeField] private float rotationSpeed = 240f;
+
     [SerializeField] private int previousRotateInput;
     private CinemachineOrbitalFollow cameraRotator;
     private float rotationOffset = 45f;
     private float targetRotation;
     private int inputRotateCamera;
     private bool isRotating;
+    private bool isCentering;
+    private Vector3 cameraCenteringTarget;
 
-    [SerializeField] private float rotationSpeed = 360f;
 
-    private void Awake()
-    {
-        
-    }
 
     private void Start()
     {
         inputRotateCamera = (int) InputManager.Instance.rotateCamera;
+        UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChange;
         cameraRotator = cinemachineMainCamera.GetComponent<CinemachineOrbitalFollow>();
     }
 
     private void Update()
     {
+        if (isCentering) CameraCentering();
         // checks if camera is to move this frame
         MoveCamera();
         
@@ -40,6 +43,19 @@ public class CameraController : MonoBehaviour
 
         previousRotateInput = inputRotateCamera;
         RotateCamera();
+    }
+
+    private void CameraCentering()
+    {
+        Vector3 cameraCenteringDirection = (cameraCenteringTarget - transform.position).normalized;
+        if (Vector3.Distance(transform.position, cameraCenteringTarget) > cameraCenteringDistance)
+        {
+            transform.position += cameraCenteringDirection * (moveSpeed * Time.deltaTime);
+        }
+        else
+        {
+            isCentering = false;   
+        }
     }
 
     private void MoveCamera()
@@ -60,6 +76,18 @@ public class CameraController : MonoBehaviour
         //moves tracker based on WSAD movement
         Vector3 inputMoveDirection = right * cameraMoveOrder.x + forward * cameraMoveOrder.y;
         transform.position += inputMoveDirection * (moveSpeed * Time.deltaTime);
+    }
+
+    private void StartCenteringCameraOnSelectedUnit(Unit unit)
+    {
+        isCentering = true;
+        cameraCenteringTarget = unit.transform.position;
+
+    }
+
+    private void UnitActionSystem_OnSelectedUnitChange(object sender, EventArgs e)
+    {
+        StartCenteringCameraOnSelectedUnit(UnitActionSystem.Instance.GetSelectedUnit());
     }
     
     private void StartRotation()
