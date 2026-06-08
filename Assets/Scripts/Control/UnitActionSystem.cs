@@ -40,6 +40,9 @@ public class UnitActionSystem : MonoBehaviour
         // blocks taking actions unless previous has ended
         if (isBusy) return;
         
+        // blocks taking any action if it's the enemy's turn
+        if (!TurnSystem.Instance.IsPlayerTurn()) return;
+        
         // blocks taking actions if mouse is over UI
         if (EventSystem.current.IsPointerOverGameObject()) return;
         
@@ -91,15 +94,14 @@ public class UnitActionSystem : MonoBehaviour
         {
             selectedGameObject.transform.parent.TryGetComponent(out Unit unit);
             
-            // Unit is already selected
+            // this Unit is already selected
             if (unit == selectedUnit) return false;
             
+            // checks if Unit belongs to player or the 'enemy'
+            if (unit.IsEnemy()) return false;
+            
             if (unit) SetSelectedUnit(unit);
-            // if (unit.IsEnemy())
-            // {
-            //     // Clicked on an Enemy
-            //     return false;
-            // }
+            
             return true;
         }
         return false;

@@ -11,6 +11,10 @@ public class Unit : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
 
+    public static event EventHandler OnAnyActionPointsChanged;
+
+    [SerializeField] private bool isEnemy;
+    
     private float stoppingDistance = 0.05f;
     private GridPosition currentGridPosition;
     [Header("Actions")] 
@@ -19,7 +23,6 @@ public class Unit : MonoBehaviour
     private SpinAction spinAction;
     private int startingActionPoints = 2;
     private int currentActionPoints;
-    
     
     private void Awake()
     {
@@ -32,8 +35,10 @@ public class Unit : MonoBehaviour
     private void Start()
     {
         currentGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        // GetMoveAction().Move(currentGridPosition);
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnUnitChanged;
     }
+
+    
 
     private void Update()
     {
@@ -83,6 +88,8 @@ public class Unit : MonoBehaviour
     private void SpendActionPoints(int actionCost)
     {
         currentActionPoints -= actionCost;
+        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+
     }
 
     public bool TrySpendActionPointsToTakeAction(ActionParentClass apc)
@@ -94,11 +101,24 @@ public class Unit : MonoBehaviour
         } 
         return false;
     }
-
+    private void TurnSystem_OnUnitChanged(object sender, EventArgs e)
+    {
+        ResetActionPoints();
+    }
+    
     public void ResetActionPoints()
     {
-        
+        if (IsEnemy() && !TurnSystem.Instance.IsPlayerTurn()
+            || !IsEnemy() && TurnSystem.Instance.IsPlayerTurn())
+        {
+            this.currentActionPoints = startingActionPoints;
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 
+    public bool IsEnemy()
+    {
+        return isEnemy;
+    }
 }
 
