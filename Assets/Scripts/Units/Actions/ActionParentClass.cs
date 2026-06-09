@@ -29,4 +29,16 @@ public abstract class ActionParentClass : MonoBehaviour
     {
         return 1;
     }
+
+    protected void ActionStart(Action onActionComplete)
+    {
+        isActive = true;
+        this.onActionComplete = onActionComplete;
+    }
+
+    protected void ActionEnd(Action onActionComplete)
+    {
+        isActive = false;
+        onActionComplete();
+    }
 }

@@ -15,7 +15,7 @@ public class Unit : MonoBehaviour
 
     [SerializeField] private bool isEnemy;
     
-    private float stoppingDistance = 0.05f;
+    // private float stoppingDistance = 0.05f;
     private GridPosition currentGridPosition;
     [Header("Actions")] 
     private ActionParentClass[] actionsArray;
@@ -119,6 +119,16 @@ public class Unit : MonoBehaviour
     public bool IsEnemy()
     {
         return isEnemy;
+    }
+
+    public void TakeDamage()
+    {
+        Debug.Log($"{this.name} has taken damage");
+    }
+
+    public Vector3 GetWorldPosition()
+    {
+        return this.transform.position;
     }
 }
 

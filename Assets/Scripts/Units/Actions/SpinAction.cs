@@ -15,16 +15,13 @@ public class SpinAction : ActionParentClass
         totalSpinAmount += spinAddAmount;
         if (totalSpinAmount >= 360f)
         {
-            isActive = false;
-            onActionComplete();
+            ActionEnd(onActionComplete);
         }
     }
 
     private void Spin(Action onSpinComplete)
     {
-        this.onActionComplete = onSpinComplete;
         totalSpinAmount = 0;
-        isActive = true;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -45,6 +42,7 @@ public class SpinAction : ActionParentClass
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
+        ActionStart(onActionComplete);
         Spin(onActionComplete);
     }
 }

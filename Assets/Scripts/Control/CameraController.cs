@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
     [Header("Camera Movement")]
     [SerializeField] private GameObject cinemachineMainCamera;
     [SerializeField] private float moveSpeed = 20f;
-    [SerializeField] private float fastMoveSpeed = 60f;
+    // [SerializeField] private float fastMoveSpeed = 60f;
     [SerializeField] private float cameraCenteringDistance = 0.5f;
     [SerializeField] private float rotationSpeed = 240f;
 

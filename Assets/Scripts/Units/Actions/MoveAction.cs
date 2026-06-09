@@ -6,6 +6,8 @@ public class MoveAction : ActionParentClass
 {
     private Vector3 targetPosition;
     private GridPosition currentGridPosition;
+    public event EventHandler OnUnitStartMoving;
+    public event EventHandler OnUnitStopMoving;
     
     [Header("Movement")]
     [SerializeField] private float stoppingDistance = 0.05f;
@@ -13,8 +15,8 @@ public class MoveAction : ActionParentClass
     [SerializeField] private float unitRotationSpeed = 12f;
     [SerializeField] private int maxMoveDistance = 4;
 
-    [SerializeField] private Animator _animator;
-    private bool isMoving = false;
+    // [SerializeField] private Animator _animator;
+    // private bool isMoving = false;
     
     
     protected override void Awake()
@@ -37,14 +39,13 @@ public class MoveAction : ActionParentClass
 
     public void OrderMove(GridPosition givenOrderPosition, Action onMoveComplete)
     {
-        this.onActionComplete = onMoveComplete;
         Debug.Log("OrderMove function called.");
         if (InputManager.Instance.order)
         {
             Debug.Log($"OrderButton pressed : {InputManager.Instance.order}");
             targetPosition = LevelGrid.Instance.GetWorldPosition(givenOrderPosition);
-            isActive = true;
-            
+            OnUnitStartMoving?.Invoke(this, EventArgs.Empty);
+                        
             InputManager.Instance.order = false;
             Debug.Log($"OrderButton should be unpressed : {InputManager.Instance.order}");
         }
@@ -58,14 +59,12 @@ public class MoveAction : ActionParentClass
         // apply simple move mechanism
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
-            _animator.SetBool("IsWalking", true);
             transform.position +=  moveDirection * (Time.deltaTime * unitMoveSpeed);
         }
         else
         {
-            isActive = false;
-            _animator.SetBool("IsWalking", false);
-            onActionComplete();
+            ActionEnd(onActionComplete);
+            OnUnitStopMoving?.Invoke(this, EventArgs.Empty);
         }
         
         transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * unitRotationSpeed);
@@ -111,6 +110,7 @@ public class MoveAction : ActionParentClass
     
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
+        ActionStart(onActionComplete);
         OrderMove(gridPosition, onActionComplete);
     }
 }
