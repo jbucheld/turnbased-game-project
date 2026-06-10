@@ -6,7 +6,12 @@ public abstract class ActionParentClass : MonoBehaviour
 {
     protected Unit parentUnit;
     protected bool isActive;
+    protected bool isActionShootingType;
+
     protected Action onActionComplete;
+
+    public static event EventHandler OnAnyActionStarted;
+    public static event EventHandler OnAnyActionCompleted;
 
     protected virtual void Awake()
     {
@@ -34,11 +39,18 @@ public abstract class ActionParentClass : MonoBehaviour
     {
         isActive = true;
         this.onActionComplete = onActionComplete;
+        OnAnyActionStarted?.Invoke(this, EventArgs.Empty);
     }
 
     protected void ActionEnd(Action onActionComplete)
     {
         isActive = false;
         onActionComplete();
+        OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
+    }
+
+    public bool IsActionShootingType()
+    {
+        return isActionShootingType;
     }
 }

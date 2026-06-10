@@ -21,6 +21,7 @@ public class Unit : MonoBehaviour
     private ActionParentClass[] actionsArray;
     private MoveAction moveAction;
     private SpinAction spinAction;
+    private HealthSystem healthSystem;
     private int startingActionPoints = 2;
     private int currentActionPoints;
     
@@ -28,6 +29,7 @@ public class Unit : MonoBehaviour
     {
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
+        healthSystem = GetComponent<HealthSystem>();
         actionsArray = GetComponentsInChildren<ActionParentClass>();
         currentActionPoints = startingActionPoints;
     }
@@ -36,8 +38,8 @@ public class Unit : MonoBehaviour
     {
         currentGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnUnitChanged;
+        healthSystem.OnUnitDeath += HealthSystem_OnUnitDeath;
     }
-
     
 
     private void Update()
@@ -121,14 +123,20 @@ public class Unit : MonoBehaviour
         return isEnemy;
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damageIncome)
     {
-        Debug.Log($"{this.name} has taken damage");
+        healthSystem.TakeDamage(damageIncome);
     }
 
     public Vector3 GetWorldPosition()
     {
-        return this.transform.position;
+        return transform.position;
+    }
+
+    private void HealthSystem_OnUnitDeath(object sender, EventArgs e)
+    {
+        LevelGrid.Instance.RemoveUnitAtGridPosition(this.currentGridPosition, this);
+        Destroy(this.gameObject);
     }
 }
 

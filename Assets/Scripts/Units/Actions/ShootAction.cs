@@ -24,10 +24,17 @@ public class ShootAction : ActionParentClass
     private float stateTimer;
     private float stateCooldown = 0.5f;
     [SerializeField] int shootingRange = 6;
+    [SerializeField] private int basicDamage = 40;
     
     private Unit targetUnit;
     private bool canShootBullet;
     private float unitAimRotationSpeed = 12f;
+
+    protected override void Awake()
+    {
+        parentUnit = GetComponent<Unit>();
+        isActionShootingType = true;
+    }
 
     private void Update()
     {
@@ -40,7 +47,7 @@ public class ShootAction : ActionParentClass
                 RotateWhileAiming();
                 break;
             case State.Shooting:
-                if (canShootBullet == true)
+                if (canShootBullet)
                 {
                     ProcessShoot();
                     canShootBullet = false;
@@ -85,10 +92,10 @@ public class ShootAction : ActionParentClass
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        ActionStart(onActionComplete);
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
         canShootBullet = true;
-        ShootProcedure(onActionComplete);    
+        ShootProcedure(onActionComplete);
+        ActionStart(onActionComplete);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -133,9 +140,9 @@ public class ShootAction : ActionParentClass
         OnShoot?.Invoke(this, new OnShootEventArgs
         {
             targetUnit = targetUnit,
-            shootingUnit = this.parentUnit
+            shootingUnit = parentUnit
         });
-        Debug.Log("Dealt X damage");
+        targetUnit.TakeDamage(basicDamage);
     }
 
     public override string GetActionName()

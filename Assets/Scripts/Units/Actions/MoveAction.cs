@@ -37,7 +37,7 @@ public class MoveAction : ActionParentClass
         if(isActive) Move();
     }
 
-    public void OrderMove(GridPosition givenOrderPosition, Action onMoveComplete)
+    public void OrderMove(GridPosition givenOrderPosition)
     {
         Debug.Log("OrderMove function called.");
         if (InputManager.Instance.order)
@@ -60,21 +60,33 @@ public class MoveAction : ActionParentClass
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
             transform.position +=  moveDirection * (Time.deltaTime * unitMoveSpeed);
+            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * unitRotationSpeed);
+            
         }
         else
         {
+            CheckGridPosition();
             ActionEnd(onActionComplete);
             OnUnitStopMoving?.Invoke(this, EventArgs.Empty);
         }
         
-        transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * unitRotationSpeed);
+        // transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * unitRotationSpeed);
         
+        // CheckGridPosition();
+        // OnUnitStopMoving?.Invoke(this, EventArgs.Empty);
+
+    }
+
+    private void CheckGridPosition()
+    {
         GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if (newGridPosition != currentGridPosition)
         {
-            LevelGrid.Instance.UnitMovedGridPosition(this.currentGridPosition, newGridPosition, parentUnit);
+            GridPosition oldGridPosition = currentGridPosition;
+            currentGridPosition = newGridPosition;
+            
+            LevelGrid.Instance.UnitMovedGridPosition(oldGridPosition, currentGridPosition, parentUnit);
         }
-        currentGridPosition = newGridPosition;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -110,7 +122,7 @@ public class MoveAction : ActionParentClass
     
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
+        OrderMove(gridPosition);
         ActionStart(onActionComplete);
-        OrderMove(gridPosition, onActionComplete);
     }
 }
