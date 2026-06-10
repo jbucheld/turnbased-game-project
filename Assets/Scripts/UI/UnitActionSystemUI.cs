@@ -31,8 +31,6 @@ public class UnitActionSystemUI : MonoBehaviour
         UpdateSelectedVisual();
     }
 
-    
-
 
     private void CreateUnitActionButtons()
     {
@@ -71,6 +69,8 @@ public class UnitActionSystemUI : MonoBehaviour
         remainingActionPointsText.text = $"Action Points : {remainingPoints}";
     }
     
+    
+    // EVENT LISTENERS
 
     private void UnitActionSystem_OnSelectedUnitChange(object sender, EventArgs e)
     {

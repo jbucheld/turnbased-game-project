@@ -29,6 +29,7 @@ public class HealthSystem : MonoBehaviour
     private void UnitDeath()
     {
         OnUnitDeath?.Invoke(this, EventArgs.Empty);
+        
     }
 
     public float GetCurrentHealthInFloat()

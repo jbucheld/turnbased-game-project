@@ -25,7 +25,7 @@ public class CameraManager : MonoBehaviour
     {
         // overShoulderShootingCamera.Priority = 20;
         overShoulderShootingCamera.gameObject.SetActive(true);
-        Debug.Log("ASDF");
+        Debug.Log("ASDF....");
 
     }
 
