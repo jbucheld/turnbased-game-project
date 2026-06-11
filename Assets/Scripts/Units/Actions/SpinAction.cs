@@ -37,7 +37,7 @@ public class SpinAction : ActionParentClass
 
     public override int GetActionCost()
     {
-        return 2;
+        return 1;
     }
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
@@ -45,4 +45,14 @@ public class SpinAction : ActionParentClass
         ActionStart(onActionComplete);
         Spin(onActionComplete);
     }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        return new EnemyAIAction()
+        {
+            gridPosition = gridPosition,
+            actionValue = 0,
+        };
+    }
+
 }

@@ -6,7 +6,8 @@ public class UnitAnimator : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform bulletProjectilePrefab;
     [SerializeField] private Transform bulletEjectPoint;
-
+    private AudioSource audioSource;
+    
     private void Awake()
     {
         if (TryGetComponent(out MoveAction moveAction))
@@ -19,6 +20,8 @@ public class UnitAnimator : MonoBehaviour
         {
             shootAction.OnShoot += ShootAction_OnShoot;
         }
+        
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void MoveAction_OnUnitStartMoving(object sender, EventArgs e)
@@ -34,6 +37,7 @@ public class UnitAnimator : MonoBehaviour
     private void ShootAction_OnShoot(object sender, ShootAction.OnShootEventArgs args)
     {
         animator.SetTrigger("Shoot");
+        audioSource.Play();
 
         Transform bullet = Instantiate(bulletProjectilePrefab, bulletEjectPoint.position, Quaternion.identity);
         BulletProjectile projectileInstance = bullet.GetComponent<BulletProjectile>();

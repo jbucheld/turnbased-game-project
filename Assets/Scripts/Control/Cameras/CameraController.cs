@@ -26,6 +26,7 @@ public class CameraController : MonoBehaviour
     {
         inputRotateCamera = (int) InputManager.Instance.rotateCamera;
         UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChange;
+        EnemyAI.Instance.OnEnemyActionStart += EAI_OnEnemy;
         cameraRotator = cinemachineMainCamera.GetComponent<CinemachineOrbitalFollow>();
     }
 
@@ -88,6 +89,11 @@ public class CameraController : MonoBehaviour
     private void UnitActionSystem_OnSelectedUnitChange(object sender, EventArgs e)
     {
         StartCenteringCameraOnSelectedUnit(UnitActionSystem.Instance.GetSelectedUnit());
+    }
+
+    private void EAI_OnEnemy(object sender, EventArgs e)
+    {
+        StartCenteringCameraOnSelectedUnit(EnemyAI.Instance.GetAISelectedUnit());
     }
     
     private void StartRotation()

@@ -6,15 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="de57894c-69ba-431e-95e8-3617892c23fb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TurnBased Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TurnBased Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Control/Cameras/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Control/Cameras/CameraController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Control/Cameras/CameraManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Control/Cameras/CameraManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyAI/EnemyAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyAI/EnemyAI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/UnitActionSystemUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/UnitActionSystemUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/HealthSystem.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/ActionParentClass.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/ActionParentClass.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/MoveAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/MoveAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/ShootAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/ShootAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/SpinAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/SpinAction.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Unit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/UnitAnimator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/UnitRagdoll.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/UnitRagdollSpawner.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/UnitSelectVisualIndicator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Visuals/UnitAnimator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Visuals/UnitAnimator.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,11 +56,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Units/Actions/MoveAction.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Units/Actions/ShootAction.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Units/Actions/SpinAction.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Units/HealthSystem.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Units/Unit.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Units/UnitAnimator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Units/UnitRagdollSpawner.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Units/UnitSelectVisualIndicator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Scenes/01-  Single Line TextMesh Pro.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Recovery/0.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@285f38545487/Runtime/Behaviours/CinemachineCamera.cs" root0="SKIP_HIGHLIGHTING" />
@@ -158,7 +154,8 @@
       <workItem from="1781071999332" duration="7180000" />
       <workItem from="1781090141540" duration="2203000" />
       <workItem from="1781112865182" duration="6477000" />
-      <workItem from="1781126020276" duration="4532000" />
+      <workItem from="1781126020276" duration="4629000" />
+      <workItem from="1781166524438" duration="11119000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit for the new project">
       <option name="closed" value="true" />
@@ -264,7 +261,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781120647388</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Quick commit. &#10;- Rearranged the files. &#10;- Added base for future enemy AI">
+      <option name="closed" value="true" />
+      <created>1781130664665</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1781130664665</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -310,7 +315,8 @@
     <MESSAGE value="Added turn handler, simple EnemyAI just to pass the turn, and prepared new Shoot Action waiting to be implemented." />
     <MESSAGE value="Added shooting visuals and bulletProjectile." />
     <MESSAGE value="Added some camera control, updated visuals" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added some camera control, updated visuals" />
+    <MESSAGE value="Quick commit. &#10;- Rearranged the files. &#10;- Added base for future enemy AI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Quick commit. &#10;- Rearranged the files. &#10;- Added base for future enemy AI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

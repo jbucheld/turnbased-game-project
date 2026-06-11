@@ -9,8 +9,8 @@ public class CameraManager : MonoBehaviour
 
     private void Awake()
     {
-        overShoulderShootingCamera.gameObject.SetActive(true);
-        // overShoulderShootingCamera.Priority = 1;
+        // overShoulderShootingCamera.gameObject.SetActive(true);
+        overShoulderShootingCamera.Priority = 1;
     }
 
     private void Start()
@@ -18,27 +18,33 @@ public class CameraManager : MonoBehaviour
         HideShootingCamera();
         ActionParentClass.OnAnyActionStarted += APC_OnAnyActionStarted;
         ActionParentClass.OnAnyActionCompleted += APC_OnAnyActionCompleted;
-        Debug.Log("Initiated cam script");
     }
 
     private void ShowShootingCamera()
     {
-        // overShoulderShootingCamera.Priority = 20;
-        overShoulderShootingCamera.gameObject.SetActive(true);
-        Debug.Log("ASDF....");
+        overShoulderShootingCamera.Priority = 20;
+        // overShoulderShootingCamera.gameObject.SetActive(true);
 
     }
 
     private void HideShootingCamera()
     {
-        // overShoulderShootingCamera.Priority = 1;
-        overShoulderShootingCamera.gameObject.SetActive(false);
+        overShoulderShootingCamera.Priority = 1;
+        // overShoulderShootingCamera.gameObject.SetActive(false);
     }
 
     private void APC_OnAnyActionStarted(object sender, EventArgs e)
     {
         ActionParentClass startedAction = (ActionParentClass)sender;
-        unitToLeanOverShoulder = UnitActionSystem.Instance.GetSelectedUnit();
+        if (TurnSystem.Instance.IsPlayerTurn())
+        {
+            unitToLeanOverShoulder = UnitActionSystem.Instance.GetSelectedUnit();
+        }
+        else
+        {
+            unitToLeanOverShoulder = EnemyAI.Instance.GetAISelectedUnit();
+        }
+        
         
         if (startedAction.IsActionShootingType())
         {

@@ -100,15 +100,20 @@ public class ShootAction : ActionParentClass
 
     public override List<GridPosition> GetValidActionGridPositionList()
     {
-        List<GridPosition> validGridPositionList = new List<GridPosition>();
         GridPosition currentGridPosition = parentUnit.GetGridPosition();
+        return GetValidActionGridPositionList(currentGridPosition);
+    }
+
+    public List<GridPosition> GetValidActionGridPositionList(GridPosition unitGridPosition)
+    {
+        List<GridPosition> validGridPositionList = new List<GridPosition>();
 
         for (int x = -shootingRange; x <= shootingRange; x++)
         {
             for (int z = -shootingRange; z <= shootingRange; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
-                GridPosition testGridPosition = currentGridPosition + offsetGridPosition;
+                GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
 
                 // check if position exists in LevelGrid
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) continue;
@@ -149,4 +154,21 @@ public class ShootAction : ActionParentClass
     {
         return "Shoot!";
     }
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+        float targetRemainingHealthPercentage = targetUnit.GetHealthNormalized();
+        
+        return new EnemyAIAction()
+        {
+            gridPosition = gridPosition,
+            actionValue = 100 + Mathf.RoundToInt((1-targetRemainingHealthPercentage) * 100),
+        };
+    }
+
+    public int GetTargetCountAtPosition(GridPosition gridPosition)
+    {
+        return GetValidActionGridPositionList(gridPosition).Count;
+    }
+    
 }

@@ -1,12 +1,17 @@
 using System;
 using System.Collections.Generic;
+using Mono.Cecil;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    public event EventHandler OnEnemyActionStart;
+    public static EnemyAI Instance;
+    
     private float timer = 3f;
     private float shortCooldown = 1f;
     private State state;
+    private Unit selectedUnit;
 
 
     private enum State
@@ -18,6 +23,14 @@ public class EnemyAI : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Debug.LogError("There is more than one instance of EnemyAI!");
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        
         state = State.WaitingForEnemyTurn;
     }
 
@@ -38,8 +51,15 @@ public class EnemyAI : MonoBehaviour
                 timer -= Time.deltaTime;
                 if (timer <= 0f)
                 {
-                    state = State.Busy;
-                    TakeEnemyAIAction(SetStateTakingTurn);
+                    if (TryTakeEnemyAIAction(SetStateTakingTurn))
+                    {
+                        state = State.Busy;
+                    } else
+                    {
+                        // no more enemies have available actions to take
+                        TurnSystem.Instance.NextTurn();
+                        state = State.WaitingForEnemyTurn;
+                    }
                 }
                 break;
             case (State.Busy) :
@@ -62,24 +82,66 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void TakeEnemyAIAction(Action onEnemyAIActionComplete)
+    private bool TryTakeEnemyAIAction(Action onEnemyAIActionComplete)
     {
         foreach (Unit enemyUnit in UnitManager.Instance.GetEnemyUnitList())
         {
-            TakeSingleEnemyAIAction(enemyUnit, onEnemyAIActionComplete);
+            if (TryTakeSingleEnemyAIAction(enemyUnit, onEnemyAIActionComplete))
+            {
+                return true;
+            }
         }
+        return false;
     }
     
-    private void TakeSingleEnemyAIAction(Unit enemyUnit, Action onEnemyAIActionComplete)
+    private bool TryTakeSingleEnemyAIAction(Unit enemyUnit, Action onEnemyAIActionComplete)
     {
-        SpinAction spinAction = enemyUnit.GetSpinAction();
+        //sends message of a new enemy unit taking action
+        selectedUnit = enemyUnit;
+        OnEnemyActionStart?.Invoke(this, EventArgs.Empty);
+
+        EnemyAIAction bestEnemyAiAction = null;
+        ActionParentClass bestAction = null;
+
+        if (enemyUnit.GetCurrentActionPoints() == 0) return false;
+        foreach (ActionParentClass action in enemyUnit.GetActionsArray())
+        {
+            if (!enemyUnit.CanSpendActionPointsToTakeAction(action))
+            {
+                // enemy cannot afford this action
+                continue;
+            }
+
+            if (bestEnemyAiAction == null)
+            {
+                bestEnemyAiAction = action.GetBestEnemyAIAction();
+                bestAction = action;
+            }
+            else
+            {
+                EnemyAIAction testEnemyAIAction = action.GetBestEnemyAIAction();
+                if (testEnemyAIAction != null
+                    && testEnemyAIAction.actionValue > bestEnemyAiAction.actionValue)
+                {
+                    bestEnemyAiAction = action.GetBestEnemyAIAction();
+                    bestAction = action;
+                }
+            }
+            action.GetBestEnemyAIAction();
+
+        }
+
+        if (bestEnemyAiAction != null && enemyUnit.TrySpendActionPointsToTakeAction(bestAction))
+        {
+            bestAction.TakeAction(bestEnemyAiAction.gridPosition , onEnemyAIActionComplete);
+            return true;
+        } 
         
-        GridPosition enemyUnitPosition = enemyUnit.GetGridPosition();
-        if (!spinAction.IsPositionValid(enemyUnitPosition)) return;
-        
-        // checks action points availability and spends them
-        if (!enemyUnit.TrySpendActionPointsToTakeAction(spinAction)) return;
-        
-        spinAction.TakeAction(enemyUnitPosition, onEnemyAIActionComplete);
+        return false;
+    }
+
+    public Unit GetAISelectedUnit()
+    {
+        return selectedUnit;
     }
 }

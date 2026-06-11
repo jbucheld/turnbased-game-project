@@ -39,16 +39,8 @@ public class MoveAction : ActionParentClass
 
     public void OrderMove(GridPosition givenOrderPosition)
     {
-        Debug.Log("OrderMove function called.");
-        if (InputManager.Instance.order)
-        {
-            Debug.Log($"OrderButton pressed : {InputManager.Instance.order}");
-            targetPosition = LevelGrid.Instance.GetWorldPosition(givenOrderPosition);
-            OnUnitStartMoving?.Invoke(this, EventArgs.Empty);
-                        
-            InputManager.Instance.order = false;
-            Debug.Log($"OrderButton should be unpressed : {InputManager.Instance.order}");
-        }
+        targetPosition = LevelGrid.Instance.GetWorldPosition(givenOrderPosition);
+        OnUnitStartMoving?.Invoke(this, EventArgs.Empty);
     }
     
     private void Move()
@@ -69,12 +61,6 @@ public class MoveAction : ActionParentClass
             ActionEnd(onActionComplete);
             OnUnitStopMoving?.Invoke(this, EventArgs.Empty);
         }
-        
-        // transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * unitRotationSpeed);
-        
-        // CheckGridPosition();
-        // OnUnitStopMoving?.Invoke(this, EventArgs.Empty);
-
     }
 
     private void CheckGridPosition()
@@ -124,5 +110,16 @@ public class MoveAction : ActionParentClass
     {
         OrderMove(gridPosition);
         ActionStart(onActionComplete);
+    }
+    
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        int targetCountAtGridPosition = parentUnit.GetShootAction().GetTargetCountAtPosition(gridPosition);
+        
+        return new EnemyAIAction()
+        {
+            gridPosition = gridPosition,
+            actionValue = 10 + (targetCountAtGridPosition * 10),
+        };
     }
 }

@@ -23,6 +23,7 @@ public class Unit : MonoBehaviour
     private ActionParentClass[] actionsArray;
     private MoveAction moveAction;
     private SpinAction spinAction;
+    private ShootAction shootAction;
     private HealthSystem healthSystem;
     private int startingActionPoints = 2;
     private int currentActionPoints;
@@ -31,6 +32,7 @@ public class Unit : MonoBehaviour
     {
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
+        shootAction = GetComponent<ShootAction>();
         healthSystem = GetComponent<HealthSystem>();
         actionsArray = GetComponentsInChildren<ActionParentClass>();
         currentActionPoints = startingActionPoints;
@@ -142,5 +144,16 @@ public class Unit : MonoBehaviour
         Destroy(this.gameObject);
         OnAnyUnitDied?.Invoke(this, EventArgs.Empty);
     }
+
+    public ShootAction GetShootAction()
+    {
+        return this.shootAction;
+    }
+
+    public float GetHealthNormalized()
+    {
+        return this.healthSystem.GetCurrentHealthInFloat();
+    }
+    
 }
 
