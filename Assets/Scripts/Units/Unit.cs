@@ -21,18 +21,12 @@ public class Unit : MonoBehaviour
     private GridPosition currentGridPosition;
     [Header("Actions")] 
     private ActionParentClass[] actionsArray;
-    private MoveAction moveAction;
-    private SpinAction spinAction;
-    private ShootAction shootAction;
     private HealthSystem healthSystem;
     private int startingActionPoints = 2;
     private int currentActionPoints;
     
     private void Awake()
     {
-        moveAction = GetComponent<MoveAction>();
-        spinAction = GetComponent<SpinAction>();
-        shootAction = GetComponent<ShootAction>();
         healthSystem = GetComponent<HealthSystem>();
         actionsArray = GetComponentsInChildren<ActionParentClass>();
         currentActionPoints = startingActionPoints;
@@ -45,21 +39,19 @@ public class Unit : MonoBehaviour
         healthSystem.OnUnitDeath += HealthSystem_OnUnitDeath;
         OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
     }
-    
 
     private void Update()
     {
        currentGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
     }
 
-    public MoveAction GetMoveAction()
+    public T GetAction<T>() where T : ActionParentClass
     {
-        return moveAction;
-    }
-
-    public SpinAction GetSpinAction()
-    {
-        return spinAction;
+        foreach (ActionParentClass action in actionsArray)
+        {
+            if (action.GetType() == typeof(T)) return (T)action;
+        }
+        return null;
     }
 
     public GridPosition GetGridPosition()
@@ -143,11 +135,6 @@ public class Unit : MonoBehaviour
         LevelGrid.Instance.RemoveUnitAtGridPosition(this.currentGridPosition, this);
         Destroy(this.gameObject);
         OnAnyUnitDied?.Invoke(this, EventArgs.Empty);
-    }
-
-    public ShootAction GetShootAction()
-    {
-        return this.shootAction;
     }
 
     public float GetHealthNormalized()

@@ -6,15 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="de57894c-69ba-431e-95e8-3617892c23fb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TurnBased Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TurnBased Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Control/Cameras/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Control/Cameras/CameraController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Control/Cameras/CameraManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Control/Cameras/CameraManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyAI/EnemyAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyAI/EnemyAI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/ActionParentClass.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/ActionParentClass.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Control/UnitActionSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Control/UnitActionSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Map/Grid/GridObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Map/Grid/GridObject.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Map/Grid/GridSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Map/Grid/GridSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Map/Level/LevelGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Map/Level/LevelGrid.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/MoveAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/MoveAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/ShootAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/ShootAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/SpinAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Actions/SpinAction.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Unit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Visuals/UnitAnimator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Visuals/UnitAnimator.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +152,8 @@
       <workItem from="1781090141540" duration="2203000" />
       <workItem from="1781112865182" duration="6477000" />
       <workItem from="1781126020276" duration="4629000" />
-      <workItem from="1781166524438" duration="11119000" />
+      <workItem from="1781166524438" duration="11225000" />
+      <workItem from="1781201206520" duration="9558000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit for the new project">
       <option name="closed" value="true" />
@@ -269,7 +267,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781130664665</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Added simple functioning AI, which includes:&#10;- moving for better shooting position,&#10;- shooting at most wounded unit">
+      <option name="closed" value="true" />
+      <created>1781181982024</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1781181982024</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -316,7 +322,8 @@
     <MESSAGE value="Added shooting visuals and bulletProjectile." />
     <MESSAGE value="Added some camera control, updated visuals" />
     <MESSAGE value="Quick commit. &#10;- Rearranged the files. &#10;- Added base for future enemy AI" />
-    <option name="LAST_COMMIT_MESSAGE" value="Quick commit. &#10;- Rearranged the files. &#10;- Added base for future enemy AI" />
+    <MESSAGE value="Added simple functioning AI, which includes:&#10;- moving for better shooting position,&#10;- shooting at most wounded unit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added simple functioning AI, which includes:&#10;- moving for better shooting position,&#10;- shooting at most wounded unit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -114,7 +114,7 @@ public class MoveAction : ActionParentClass
     
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        int targetCountAtGridPosition = parentUnit.GetShootAction().GetTargetCountAtPosition(gridPosition);
+        int targetCountAtGridPosition = parentUnit.GetAction<ShootAction>().GetTargetCountAtPosition(gridPosition);
         
         return new EnemyAIAction()
         {
