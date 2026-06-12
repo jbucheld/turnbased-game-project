@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Pathfinding : MonoBehaviour
 {
+    public  static Pathfinding Instance { get; private set; } 
+    
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
     
@@ -15,6 +17,14 @@ public class Pathfinding : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Debug.LogError("There's more than one instance of Pathfinding!");
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        
         gridSystem = new GridSystem<PathNode>
         (10, 10, 2f,  
             (GridSystem<PathNode> gridSystem, GridPosition gridPosition) => new PathNode(gridPosition)); 
@@ -103,12 +113,11 @@ public class Pathfinding : MonoBehaviour
     public int CalculateDistance(GridPosition a, GridPosition b)
     {
         GridPosition gridPositionDistance = a - b;
-        int distance = Mathf.Abs(gridPositionDistance.x) + Mathf.Abs(gridPositionDistance.z);
         int xDistance = Mathf.Abs(gridPositionDistance.x);
         int zDistance = Mathf.Abs(gridPositionDistance.z);
         int remainingDistance = Mathf.Abs(xDistance - zDistance);
         
-        return (MOVE_STRAIGHT_COST * Mathf.Min(xDistance, zDistance)) + (MOVE_STRAIGHT_COST * remainingDistance);
+        return (MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance)) + (MOVE_STRAIGHT_COST * remainingDistance);
     }
 
     private PathNode GetLowestFCostPathNode(List<PathNode> pathNodeList)
